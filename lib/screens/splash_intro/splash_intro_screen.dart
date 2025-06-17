@@ -1,5 +1,6 @@
 import 'package:ecommercial_app/constants/app_colors.dart';
 import 'package:ecommercial_app/constants/app_constants.dart';
+import 'package:ecommercial_app/screens/sign_in/sign_in_screen.dart';
 import 'package:ecommercial_app/screens/splash_intro/widgets/splash_intro_content_widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -124,7 +125,12 @@ class _SplashIntroScreenState extends State<SplashIntroScreen> {
   TextButton _buildNextBottomWidget() {
     return currentPage == AppConstants.splashIntroData.length - 1
         ? TextButton(
-            onPressed: () {},
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SignInScreen(),
+              ),
+            ),
             child: const Text(
               'Get Started',
               style: TextStyle(
