@@ -49,7 +49,12 @@ class _SplashIntroScreenState extends State<SplashIntroScreen> {
       actions: [
         TextButton(
           onPressed: () {
-            /// TODO: Navigate to main app
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SignInScreen(),
+              ),
+            );
           },
           child: const Text(
             'Skip',

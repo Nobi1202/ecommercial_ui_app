@@ -4,16 +4,16 @@ import '../../components/app_text_field.dart';
 import '../../components/app_button.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_images_path.dart';
-import '../sign_up/sign_up_screen.dart';
+import '../sign_in/sign_in_screen.dart';
 
-class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -29,21 +29,24 @@ class _SignInScreenState extends State<SignInScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 40),
-                _buildWelcomeBackTitleWidget(),
+                _buildCreateAccountTitleWidget(),
                 const SizedBox(height: 40),
                 _buildEmailFieldWidget(),
                 const SizedBox(height: 20),
                 _buildPasswordFieldWidget(),
+                const SizedBox(height: 20),
+                _buildConfirmPasswordFieldWidget(),
+                const SizedBox(height: 20),
+                _buildTermsAndConditionsWidget(),
                 const SizedBox(height: 30),
-                _buildForgotPasswordWidget(),
-                const SizedBox(height: 30),
-                _buildLoginButtonWidget(),
+                _buildCreateAccountButtonWidget(),
                 const SizedBox(height: 40),
                 _buildContinueWithTextWidget(),
                 const SizedBox(height: 30),
                 _buildSocialButtonsWidget(),
                 const SizedBox(height: 40),
-                _buildCreateAccountWidget(),
+                _buildAlreadyHaveAccountWidget(),
+                const SizedBox(height: 30),
               ],
             ),
           ),
@@ -52,9 +55,9 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Text _buildWelcomeBackTitleWidget() {
+  Text _buildCreateAccountTitleWidget() {
     return const Text(
-      'Welcome\nBack!',
+      'Create an\naccount',
       style: TextStyle(
         fontSize: 36,
         fontWeight: FontWeight.bold,
@@ -72,6 +75,10 @@ class _SignInScreenState extends State<SignInScreen> {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your email or username';
+        }
+        if (value.contains('@') &&
+            !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+          return 'Please enter a valid email address';
         }
         return null;
       },
@@ -95,31 +102,57 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Align _buildForgotPasswordWidget() {
-    return Align(
-      alignment: Alignment.centerRight,
-      child: TextButton(
-        onPressed: () {
-          // Handle forgot password
-        },
-        child: const Text(
-          'Forgot Password?',
+  AppTextField _buildConfirmPasswordFieldWidget() {
+    return AppTextField(
+      hintText: 'ConfirmPassword',
+      prefixIconPath: AppImagesPath.icPassword,
+      isPassword: true,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please confirm your password';
+        }
+        if (value.length < 6) {
+          return 'Password must be at least 6 characters';
+        }
+        // Note: In a real implementation, you'd compare with the password field
+        return null;
+      },
+    );
+  }
+
+  Padding _buildTermsAndConditionsWidget() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: RichText(
+        textAlign: TextAlign.left,
+        text: const TextSpan(
           style: TextStyle(
             fontSize: 12,
-            color: AppColors.red,
+            color: AppColors.gray,
             fontWeight: FontWeight.w400,
           ),
+          children: [
+            TextSpan(text: 'By clicking the '),
+            TextSpan(
+              text: 'Register',
+              style: TextStyle(
+                color: AppColors.red,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            TextSpan(text: ' button, you agree\nto the public offer'),
+          ],
         ),
       ),
     );
   }
 
-  AppButton _buildLoginButtonWidget() {
+  AppButton _buildCreateAccountButtonWidget() {
     return AppButton(
-      text: 'Login',
+      text: 'Create Account',
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-          // Handle login logic
+          // Handle create account logic
         }
       },
       height: 55,
@@ -176,12 +209,12 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Row _buildCreateAccountWidget() {
+  Row _buildAlreadyHaveAccountWidget() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const Text(
-          'Create An Account ',
+          'I Already Have an Account ',
           style: TextStyle(
             fontSize: 14,
             color: AppColors.gray,
@@ -190,16 +223,16 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
         GestureDetector(
           onTap: () {
-            // Navigate to sign up screen
-            Navigator.push(
+            // Navigate back to sign in screen
+            Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                builder: (context) => const SignUpScreen(),
+                builder: (context) => const SignInScreen(),
               ),
             );
           },
           child: const Text(
-            'Sign Up',
+            'Login',
             style: TextStyle(
               fontSize: 14,
               color: AppColors.red,
