@@ -1,3 +1,4 @@
+import 'package:ecommercial_app/screens/checkout/checkout_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../components/app_text_field.dart';
@@ -151,9 +152,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return AppButton(
       text: 'Create Account',
       onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          // Handle create account logic
-        }
+        // if (_formKey.currentState!.validate()) {
+        //   // Handle create account logic
+        // }
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const CheckoutScreen(),
+          ),
+        );
       },
       height: 55,
     );
