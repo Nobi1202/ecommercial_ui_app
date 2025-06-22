@@ -5,6 +5,7 @@ import '../../components/app_button.dart';
 import '../../constants/app_colors.dart';
 import '../../constants/app_images_path.dart';
 import '../sign_up/sign_up_screen.dart';
+import '../forget_password/forget_password_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
@@ -100,7 +101,13 @@ class _SignInScreenState extends State<SignInScreen> {
       alignment: Alignment.centerRight,
       child: TextButton(
         onPressed: () {
-          // Handle forgot password
+          // Navigate to forget password screen
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ForgetPasswordScreen(),
+            ),
+          );
         },
         child: const Text(
           'Forgot Password?',
